@@ -1,16 +1,15 @@
 import os
 import shutil
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File,Request
 from entity import Rusult
+from entity.query_data import query_pdf
 from llm import load_document
-
-
 router = APIRouter()
 
 
 @router.post("/uploadFile/")
 async def create_upload_file(file: UploadFile = File(...)):
-    file_path=f"document/{file.filename}"
+    file_path = f"document/{file.filename}"
     try:
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
@@ -22,8 +21,9 @@ async def create_upload_file(file: UploadFile = File(...)):
 
 
 @router.post("/loadFile/")
-async def load_file(file_path:str):
+async def load_file(file_path: str):
     pass
 
-
-
+@router.post("/queryQuestionByDocument")
+async def query_wt(query: query_pdf,request:Request):
+    pass
